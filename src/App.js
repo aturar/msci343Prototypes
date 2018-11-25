@@ -62,9 +62,11 @@ export default compose(
   withState("numberOfFeatures", "setNumberOfFeatures", 0),
   withState("numberOfBugs", "setNumberOfBugs", 0),
   withHandlers({
-    createBug: props => bugProps => {
-      console.log(props);
-      console.log(bugProps);
+    createBug: props => bugObject => {
+      const tmpBugsArray = Array.from(props.bugsArray);
+      tmpBugsArray.push(bugObject);
+      props.setBugsArray(tmpBugsArray);
+      props.setNumberOfBugs(props.numberOfBugs + 1);
     }
   })
 )(App);

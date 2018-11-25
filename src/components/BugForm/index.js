@@ -1,8 +1,10 @@
 import React from "react";
 import { compose, withState, withHandlers } from "recompose";
 import Select from "react-select";
+import DatePicker from "react-datepicker";
 
 import "./styles.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 const InputFeedback = ({ error }) =>
   error !== "" ? <div className="input-feedback b f5 tl">{error}</div> : null;
@@ -33,7 +35,7 @@ const TextInput = ({
       <input
         id={id}
         className={className}
-        type={type}
+        type="text"
         value={value}
         onChange={onChange}
         {...props}
@@ -43,8 +45,8 @@ const TextInput = ({
   );
 };
 
-export default function BugForm(props) {
-  const feelingLike = [
+function BugForm(props) {
+  const priorities = [
     { value: "0", label: "high" },
     { value: "1", label: "medium" },
     { value: "2", label: "low" }
@@ -56,8 +58,18 @@ export default function BugForm(props) {
     { value: "2", label: "Altamash Potato" }
   ];
   return (
-    <form className="bugForm flex flex-column tc pa4 ph7">
+    <form className="bugForm flex flex-column tc pa4 ph7 pt4">
       <div className="inputFields flex flex-column">
+        <div className="btns pa1 flex justify-center flex flex-column">
+          <div className="tc">
+            <button type="button" onClick={() => props.updateToFeature()} className={`bugsBtn ${props.issueType === "feature" && "active"}`}>
+              Feature
+            </button>
+            <button type="button" onClick={() => props.updateToBug()} className={`bugsBtn ${props.issueType === "bug" && "active"}`}>
+              Bug
+            </button>
+          </div>
+        </div>
         <div className="pa3">
           <TextInput
             id="title"
@@ -81,19 +93,22 @@ export default function BugForm(props) {
               id="priority"
               value={props.selectedOption}
               onChange={props.onChange}
-              options={feelingLike}
+              options={priorities}
+              className="priority"
+              className={props.errors.title ? "priority error" : "priority"}
             />
+            <InputFeedback error={props.errors.priority} />
           </div>
           <div className="dueDate">
             <label className="label f5 tl black-60">
               <span>Due date</span>
             </label>
-            <Select
-              id="dueDate"
-              value={props.selectedOption}
-              onChange={props.onChange}
-              options={feelingLike}
+            <DatePicker
+              selected={props.startDate}
+              onChange={date => props.setStartDate(date)}
+              className="datePicker"
             />
+            <InputFeedback error={props.errors.startDate} />
           </div>
         </div>
         <div className="pa3 pv4">
@@ -122,21 +137,27 @@ export default function BugForm(props) {
               <span>Asignee</span>
             </label>
             <Select
-              id="dueDate"
-              value={props.selectedOption}
-              onChange={props.onChange}
+              id="asignee"
+              value={props.priority}
+              onChange={value => props.onAsigneChange(value)}
               options={asignee}
             />
+            <InputFeedback error={props.errors.asignee} />
           </div>
           <button
             onClick={e => {
               e.preventDefault();
               props.handleSubmit();
               if (props.errors.description === "") {
+                debugger
                 props.createBug({
                   title: props.values.title,
-                  description: props.values.description
+                  description: props.values.description,
+                  status: props.values.status,
+                  priority: props.values.priority,
+                  date: props.values.startDate,
                 });
+                props.history.push("/loggedByMe");
               }
             }}
             className="submitBtn"
@@ -149,3 +170,30 @@ export default function BugForm(props) {
     </form>
   );
 }
+
+export default compose(
+  withState("issueType", "setIssueType", ""),
+  withState("startDate", "setStartDate", () => ""),
+  withState("priority", "setPriority", ""),
+  withState("asignee", "setAsignee", ""),
+  withHandlers({
+    updateToBug: props => () => {
+      props.setIssueType("bug");
+    },
+    updateToFeature: props => () => {
+      props.setIssueType("feature");
+    },
+    onStartDateChange: props => value => {
+      props.setFieldValue("startDate", value);
+      props.setStartDate(value);
+    },
+    onPriorityChange: props => value => {
+      props.setFieldValue("priority", value);
+      props.setPriority(value);
+    },
+    onAsigneChange: props => value => {
+      props.setFieldValue("asignee", value);
+      props.setAsignee(value);
+    }
+  })
+)(BugForm);

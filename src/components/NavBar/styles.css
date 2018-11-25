@@ -1,8 +1,13 @@
 .navbar {
-  border-bottom: solid 1px #E7E7E7
+  border-bottom: solid 1px #e7e7e7;
+  background-color: #2a3194;
 }
 
 .navbar .navBarButton {
   text-decoration: none;
+  color: white;
+      text-decoration: none;
+    color: white;
+    font-size: 30px;
+    margin: 22px;
 }
-

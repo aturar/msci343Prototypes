@@ -6,19 +6,24 @@
 }
 
 .titleField {
-  width: 50em;
+  width: 38em;
+  height: 55px;
 }
 
 .descriptionField {
-  width: 50em;
   height: 10em;
   border: 1px solid rgba(0, 0, 0, 0.1);
   background: #fff;
-  font-size: 1rem;
+  font-size: 21px;
+  width: 38em;
   padding: 1rem;
   outline: none;
   color: #000;
   border-radius: 4px;
+}
+
+.css-1hwfws3 {
+  font-size: 21px;
 }
 
 .priorityAndDueDate {
@@ -36,11 +41,16 @@
 
 input {
   padding: 1rem;
-  font-size: 16px;
+  font-size: 21px;
   width: 100%;
   display: block;
+  width: 100%;
   border-radius: 4px;
   border: 1px solid #ccc;
+}
+
+.css-1492t68 {
+  font-size: 21px;
 }
 
 input:focus {
@@ -96,7 +106,7 @@ label {
   text-transform: none;
   padding: 15px 90px;
   outline: none;
-  top: 13px;
+  top: 30px;
   margin-left: auto;
 }
 
@@ -113,4 +123,52 @@ label {
 
 .asigneeAndSubmitBtn {
   width: 50em;
+}
+
+.datePicker {
+  position: relative;
+  top: 0px;
+  height: 55px;
+  width: 357px;
+  left: -4px;
+}
+
+.css-vj8t7z {
+  height: 55px;
+}
+
+.bugsBtn {
+  padding: 12px 18px;
+    border-radius: 6px;
+    width: 7em;
+    /* height: 2em; */
+    outline: none;
+    cursor: pointer;
+    box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.302), 0 4px 8px 3px rgba(60, 64, 67, 0.149);
+    font-size: 23px;
+}
+
+.bugsBtn:hover {
+  box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.302),
+    0 4px 8px 3px rgba(60, 64, 67, 0.149);
+  cursor: pointer;
+}
+
+.active {
+  background-color: gray;
+  border-color: lightgray;
+  color: white;
+}
+
+.issueActionBtns {
+      background-color: gray;
+    border-radius: 25px;
+    width: 17em;
+    height: 3em;
+}
+
+.actionBtnss {
+  background-color: gray;
+    border-radius: 20px;
+    width: 15em;
 }
