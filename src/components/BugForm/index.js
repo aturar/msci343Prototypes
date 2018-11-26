@@ -150,6 +150,7 @@ function BugForm(props) {
                   date: props.startDate.toDateString(),
                   asignee: props.asignee,
                   issueType: props.issueType,
+                  status: "Backlog"
                 });
                 props.history.push("/loggedByMe");
               }

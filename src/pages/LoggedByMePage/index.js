@@ -29,11 +29,11 @@ function LoggedByMePage(props) {
       <div className="searchAndBtns pa3 pb4">
         <div className="btns pa3 flex justify-center flex flex-column">
           <div className="tc">
-            <button className="actionBtn">
+            <button onClick={props.updateToFeature} className={`actionBtn ${props.active === "feature" && "act"}`}>
               <div className="b f3">{props.numberOfFeatures} Features</div>
-              <div className="black-60 f5">Completed last week: 3</div>
+              <div className="black-60">Completed last week: 3</div>
             </button>
-            <button className="actionBtn">
+            <button onClick={props.updateToBug} className={`actionBtn ${props.active === "bug" && "act"}`}>
               <div className="b f3">{props.numberOfBugs} Bugs</div>
               <div className="black-60 f5">Completed last week: 5</div>
             </button>
@@ -46,14 +46,29 @@ function LoggedByMePage(props) {
       <div className="grid">
         <ReactTable
           getTrProps={(state, rowInfo, column, instance) => ({
-            onClick: e => props.history.push("/viewBug")
+            onClick: e => props.history.push({
+              pathname: "/viewBug",
+              state: rowInfo,
+            })
           })}
-          data={props.bugsArray} columns={columns} />
+          data={props.dataToDisplay} columns={columns} />
       </div>
     </div>
   );
 }
 
 export default compose(
+  withState("dataToDisplay", "setDataToDisplay", (props) => props.loggedByMeBugsArray),
+  withState("active", "setActive", "bug"),
   withState("selected", "setSelected", null),
+  withHandlers({
+    updateToBug: props => () => {
+      props.setActive("bug");
+      props.setDataToDisplay(props.loggedByMeBugsArray)
+    },
+    updateToFeature: props => () => {
+      props.setActive("feature")
+      props.setDataToDisplay(props.loggedByMeFeaturesArray)
+    },
+  })
 )(LoggedByMePage)

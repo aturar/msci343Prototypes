@@ -44,48 +44,69 @@ function App(props) {
 }
 
 export default compose(
-  withState("bugsArray", "setBugsArray", [
+  withState("loggedByMeBugsArray", "setLoggedByMeBugsArray", [
     {
       title: "The navigation bar is broken",
-      status: "in-progress",
+      status: "In-progress",
       priority: "low",
       date: "Wed Nov 22 2018",
       description: "Fix it suka",
-      asignee: "Baraa Baraa"
+      asignee: "Baraa Baraa",
+      issueType: "bug",
     },
+  ]),
+  withState("loggedByMeFeaturesArray", "setLoggedByMeFeaturesArray", []),
+  withState("bugsArray", "setBugsArray", [
     {
       title: "The navigation bar is broken",
-      status: "in-progress",
+      status: "In-progress",
       priority: "low",
-      date: "Tue Oct 20 2018",
+      date: "Wed Nov 22 2018",
       description: "Fix it suka",
-      asignee: "Baraa Baraa"
+      asignee: "Baraa Baraa",
+      issueType: "bug"
     },
+  ]),
+  withState("featuresArray", "setFeaturesArray", [
     {
-      title: "The navigation bar is broken",
-      status: "in-progress",
+      title: "Implement something",
+      status: "In-progress",
       priority: "low",
-      date: "Mon Jun 20 2018",
+      date: "Wed Nov 22 2018",
       description: "Fix it suka",
-      asignee: "Baraa Baraa"
+      asignee: "Baraa Baraa",
+      issueType: "feature"
     },
-    {
-      title: "The navigation bar is broken",
-      status: "in-progress",
-      priority: "low",
-      date: "Sun Sep 20 2018",
-      description: "Fix it suka",
-      asignee: "Baraa Baraa"
-    }
   ]),
   withState("numberOfFeatures", "setNumberOfFeatures", 0),
   withState("numberOfBugs", "setNumberOfBugs", 4),
   withHandlers({
     createBug: props => bugObject => {
-      const tmpBugsArray = Array.from(props.bugsArray);
-      tmpBugsArray.push(bugObject);
-      props.setBugsArray(tmpBugsArray);
-      props.setNumberOfBugs(props.numberOfBugs + 1);
+      if (bugObject.issueType === "bug") {
+        props.setNumberOfBugs(props.numberOfBugs + 1);
+
+        if (bugObject.asignee.label === "Baraa Baraa") {
+          const tmpBugsArray = Array.from(props.bugsArray);
+          tmpBugsArray.push(bugObject);
+          props.setBugsArray(tmpBugsArray);
+        }
+
+        const loggedByMeArray = Array.from(props.loggedByMeBugsArray);
+        loggedByMeArray.push(bugObject);
+        props.setLoggedByMeBugsArray(loggedByMeArray);
+
+      } else if (bugObject.issueType === "feature") {
+        props.setNumberOfFeatures(props.numberOfFeatures + 1);
+
+        if (bugObject.asignee.label === "Baraa Baraa") {
+          const tmpFeaturesArray = Array.from(props.featuresArray);
+          tmpFeaturesArray.push(bugObject);
+          props.setFeaturesArray(tmpFeaturesArray);
+        }
+        const featuresByMe = Array.from(props.loggedByMeFeaturesArray);
+        featuresByMe.push(bugObject);
+        props.setLoggedByMeFeaturesArray(featuresByMe);
+      }
     }
   })
 )(App);

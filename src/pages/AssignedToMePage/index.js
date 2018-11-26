@@ -5,6 +5,7 @@ import "react-table/react-table.css";
 import "./styles.css";
 
 function AssignedToMePage(props) {
+  console.log(props)
   const columns = [
     {
       Header: "Title",
@@ -23,17 +24,16 @@ function AssignedToMePage(props) {
       accessor: "date"
     }
   ];
-
   return (
     <div className="loggedByMe flex flex-column">
       <div className="searchAndBtns pa3 pb4">
         <div className="btns pa3 flex justify-center flex flex-column">
           <div className="tc">
-            <button className="actionBtn">
+            <button onClick={props.updateToFeature} className={`actionBtn ${props.active === "feature" && "act"}`}>
               <div className="b f3">{props.numberOfFeatures} Features</div>
-              <div className="black-60 f5">Completed last week: 3</div>
+              <div className="black-60">Completed last week: 3</div>
             </button>
-            <button className="actionBtn">
+            <button onClick={props.updateToBug} className={`actionBtn ${props.active === "bug" && "act"}`}>
               <div className="b f3">{props.numberOfBugs} Bugs</div>
               <div className="black-60 f5">Completed last week: 5</div>
             </button>
@@ -51,12 +51,24 @@ function AssignedToMePage(props) {
               state: rowInfo,
             })
           })}
-          data={props.bugsArray} columns={columns} />
+          data={props.dataToDisplay} columns={columns} />
       </div>
     </div>
   );
 }
 
 export default compose(
+  withState("dataToDisplay", "setDataToDisplay", (props) => props.bugsArray),
+  withState("active", "setActive", "bug"),
   withState("selected", "setSelected", null),
+  withHandlers({
+    updateToBug: props => () => {
+      props.setActive("bug");
+      props.setDataToDisplay(props.bugsArray)
+    },
+    updateToFeature: props => () => {
+      props.setActive("feature")
+      props.setDataToDisplay(props.featuresArray)
+    },
+  })
 )(AssignedToMePage)

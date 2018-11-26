@@ -10,16 +10,15 @@ import "react-datepicker/dist/react-datepicker.css";
 function ViewBugPage(props) {
   const { original } = props.location.state
   const date = Moment(original.date, 'x')
-  console.log("Date", date._d)
   return (
     <form className="bugForm flex flex-column tc pa4 ph7 pt4 disabled">
       <div className="inputFields flex flex-column">
         <div className="btns pa1 flex justify-center flex flex-column">
           <div className="tc">
-            <button type="button" onClick={() => props.updateToFeature()} className={`bugsBtn ${props.issueType === "feature" && "active"}`}>
+            <button type="button" onClick={() => props.updateToFeature()} className={`bugsBtn ${original.issueType === "feature" && "active"}`}>
               Feature
             </button>
-            <button type="button" onClick={() => props.updateToBug()} className={`bugsBtn ${props.issueType === "bug" && "active"}`}>
+            <button type="button" onClick={() => props.updateToBug()} className={`bugsBtn ${original.issueType === "bug" && "active"}`}>
               Bug
             </button>
           </div>
@@ -40,8 +39,7 @@ function ViewBugPage(props) {
             </label>
             <Select
               id="priority"
-              value="High"
-              onChange={props.onPriorityChange}
+              defaultInputValue={original.priority}
               className="priority"
             />
           </div>
@@ -74,7 +72,7 @@ function ViewBugPage(props) {
               <span>Asignee</span>
             </label>
             <Select
-              defaultInputValue={original.asignee}
+              defaultInputValue={original.asignee.label}
             />
           </div>
           <div className="status">
