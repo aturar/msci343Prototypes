@@ -6,12 +6,10 @@ import { Route, Switch, BrowserRouter } from "react-router-dom";
 // components
 import NavBar from "./components/NavBar";
 // pages
-import HomePage from "./pages/HomePage";
-import AssignedToMePage from "./pages/AssignedToMePage";
-import CreateBugPage from "./pages/CreateBugPage";
 import LoggedByMePage from "./pages/LoggedByMePage";
-import MyFavouritesPage from "./pages/MyFavouritesPage";
 import FileABugPage from "./pages/FileABugPage";
+import ViewBugPage from "./pages/ViewBugPage";
+import AssignedToMePage from "./pages/AssignedToMePage";
 
 import "./index.css";
 
@@ -22,27 +20,8 @@ function App(props) {
       <Switch>
         <Route
           exact
-          path="/assignedToMe"
-          component={restProps => (
-            <AssignedToMePage {...props} {...restProps} />
-          )}
-        />
-        <Route
-          exact
-          path="/createBug"
-          component={restProps => <CreateBugPage {...props} {...restProps} />}
-        />
-        <Route
-          exact
           path="/loggedByMe"
           component={restProps => <LoggedByMePage {...props} {...restProps} />}
-        />
-        <Route
-          exact
-          path="/myFavourites"
-          component={restProps => (
-            <MyFavouritesPage {...props} {...restProps} />
-          )}
         />
         <Route
           exact
@@ -50,7 +29,14 @@ function App(props) {
           component={restProps => <FileABugPage {...props} {...restProps} />}
         />
         <Route
-          component={restProps => <HomePage {...props} {...restProps} />}
+          exact
+          path="/viewBug"
+          component={restProps => <ViewBugPage {...props} {...restProps} />}
+        />
+        <Route
+          exact
+          path="/assignedToMePage"
+          component={restProps => <AssignedToMePage {...props} {...restProps} />}
         />
       </Switch>
     </div>
@@ -58,9 +44,42 @@ function App(props) {
 }
 
 export default compose(
-  withState("bugsArray", "setBugsArray", []),
+  withState("bugsArray", "setBugsArray", [
+    {
+      title: "The navigation bar is broken",
+      status: "in-progress",
+      priority: "low",
+      date: "Wed Nov 22 2018",
+      description: "Fix it suka",
+      asignee: "Baraa Baraa"
+    },
+    {
+      title: "The navigation bar is broken",
+      status: "in-progress",
+      priority: "low",
+      date: "Tue Oct 20 2018",
+      description: "Fix it suka",
+      asignee: "Baraa Baraa"
+    },
+    {
+      title: "The navigation bar is broken",
+      status: "in-progress",
+      priority: "low",
+      date: "Mon Jun 20 2018",
+      description: "Fix it suka",
+      asignee: "Baraa Baraa"
+    },
+    {
+      title: "The navigation bar is broken",
+      status: "in-progress",
+      priority: "low",
+      date: "Sun Sep 20 2018",
+      description: "Fix it suka",
+      asignee: "Baraa Baraa"
+    }
+  ]),
   withState("numberOfFeatures", "setNumberOfFeatures", 0),
-  withState("numberOfBugs", "setNumberOfBugs", 0),
+  withState("numberOfBugs", "setNumberOfBugs", 4),
   withHandlers({
     createBug: props => bugObject => {
       const tmpBugsArray = Array.from(props.bugsArray);

@@ -5,21 +5,21 @@ import "./styles.css";
 export default function NavBar(props) {
   return (
     <div className="navbar pa4 tc f3">
-      <Link className="navBarButton ph5 b" to="/">
+      <a className="navBarButton ph5 b" href="https://projects.invisionapp.com/share/PNPA6EHU9D4?fbclid=IwAR2LiKIro_4C7jhLW7MM2hoj_roBdW94HdmBTLAwA7rO-efhfYFHaPvdqU0#/screens/333186065">
         Home
-      </Link>
-      <Link className="navBarButton ph5 b" to="/myFavourites">
-        My Favourits
-      </Link>
-      <Link className="navBarButton ph5 b" to="/assignedToMe">
+      </a>
+      <a className="navBarButton ph5 b" href="https://projects.invisionapp.com/share/PNPA6EHU9D4?fbclid=IwAR2LiKIro_4C7jhLW7MM2hoj_roBdW94HdmBTLAwA7rO-efhfYFHaPvdqU0#/screens/333186063">
+        My Favourites
+      </a>
+      <a className="navBarButton ph5 b" href="assignedToMePage">
         Assigned to me
-      </Link>
+      </a>
       <Link className="navBarButton ph5 b" to="/loggedByMe">
         Logged by Me
       </Link>
-      <Link className="navBarButton ph5 b" to="/loggedByMe">
+      <a className="navBarButton ph5 b" href="https://projects.invisionapp.com/share/PNPA6EHU9D4?fbclid=IwAR2LiKIro_4C7jhLW7MM2hoj_roBdW94HdmBTLAwA7rO-efhfYFHaPvdqU0#/screens/333186111">
         Log out
-      </Link>
+      </a>
     </div>
   );
 }

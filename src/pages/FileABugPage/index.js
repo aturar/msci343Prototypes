@@ -26,24 +26,6 @@ const EnhancedBugForm = withFormik({
     } else {
       errors.description = "";
     }
-
-    if (!values.startDate) {
-      errors.startDate = "Required";
-    } else {
-      errors.startDate = "";
-    }
-
-    if (!values.asignee) {
-      errors.asignee = "Required";
-    } else {
-      errors.asignee = "";
-    }
-    if (!values.priority) {
-      errors.priority = "Required";
-    } else {
-      errors.priority = "";
-    }
-
     return errors;
   }
 })(BugForm);

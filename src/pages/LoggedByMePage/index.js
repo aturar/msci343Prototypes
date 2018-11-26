@@ -1,9 +1,10 @@
 import React from "react";
 import ReactTable from "react-table";
+import { compose, withState, withHandlers } from "recompose"
 import "react-table/react-table.css";
 import "./styles.css";
 
-export default function LoggedByMePage(props) {
+function LoggedByMePage(props) {
   const columns = [
     {
       Header: "Title",
@@ -23,32 +24,6 @@ export default function LoggedByMePage(props) {
     }
   ];
 
-  const data = [
-    {
-      title: "The navigation bar is broken",
-      status: "in-progress",
-      priority: "low",
-      date: "11/14/18"
-    },
-    {
-      title: "The navigation bar is broken",
-      status: "in-progress",
-      priority: "low",
-      date: "11/14/18"
-    },
-    {
-      title: "The navigation bar is broken",
-      status: "in-progress",
-      priority: "low",
-      date: "11/14/18"
-    },
-    {
-      title: "The navigation bar is broken",
-      status: "in-progress",
-      priority: "low",
-      date: "11/14/18"
-    }
-  ]
   return (
     <div className="loggedByMe flex flex-column">
       <div className="searchAndBtns pa3 pb4">
@@ -69,8 +44,16 @@ export default function LoggedByMePage(props) {
         </div>
       </div>
       <div className="grid">
-        <ReactTable data={data} columns={columns} />
+        <ReactTable
+          getTrProps={(state, rowInfo, column, instance) => ({
+            onClick: e => props.history.push("/viewBug")
+          })}
+          data={props.bugsArray} columns={columns} />
       </div>
     </div>
   );
 }
+
+export default compose(
+  withState("selected", "setSelected", null),
+)(LoggedByMePage)

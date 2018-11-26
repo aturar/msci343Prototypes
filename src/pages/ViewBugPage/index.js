@@ -2,9 +2,115 @@ import React from "react";
 import { compose, withState, withHandlers } from "recompose";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
+import Moment from 'moment';
 
 import "./styles.css";
 import "react-datepicker/dist/react-datepicker.css";
+
+function ViewBugPage(props) {
+  const { original } = props.location.state
+  const date = Moment(original.date).format('DD-MM-YYYY')
+  console.log("Date", date)
+  return (
+    <form className="bugForm flex flex-column tc pa4 ph7 pt4 disabled">
+      <div className="inputFields flex flex-column">
+        <div className="btns pa1 flex justify-center flex flex-column">
+          <div className="tc">
+            <button type="button" onClick={() => props.updateToFeature()} className={`bugsBtn ${props.issueType === "feature" && "active"}`}>
+              Feature
+            </button>
+            <button type="button" onClick={() => props.updateToBug()} className={`bugsBtn ${props.issueType === "bug" && "active"}`}>
+              Bug
+            </button>
+          </div>
+        </div>
+        <div className="pa3">
+          <TextInput
+            id="title"
+            type="text"
+            label="Title"
+            className="titleField"
+            value={original.title}
+          />
+        </div>
+        <div className="priorityAndDueDate flex pv3">
+          <div className="priority">
+            <label className="label f5 tl black-60">
+              <span>Priority</span>
+            </label>
+            <Select
+              id="priority"
+              value="High"
+              onChange={props.onPriorityChange}
+              className="priority"
+            />
+          </div>
+          <div className="dueDate">
+            <label className="label f5 tl black-60">
+              <span>Due date</span>
+            </label>
+            <DatePicker
+              defaultInputValue={date}
+              className="datePicker"
+            />
+          </div>
+        </div>
+        <div className="pa3 pv4">
+          <label className="label f5 tl black-60" {...props}>
+            Description
+          </label>
+          <textarea
+            id="description"
+            type="text"
+            label="description"
+            className="descriptionField"
+            placeholder="Please enter the description..."
+            value={original.description}
+          />
+        </div>
+        <div className="asigneeAndSubmitBtn flex flex-row">
+          <div className="asignee">
+            <label className="label f5 tl black-60">
+              <span>Asignee</span>
+            </label>
+            <Select
+              defaultInputValue={original.asignee}
+            />
+          </div>
+          <div className="status">
+            <label className="label f5 tl black-60">
+              <span>Status</span>
+            </label>
+            <Select
+              defaultInputValue={original.priority}
+            />
+          </div>
+        </div>
+        <button
+          onClick={e => {
+            e.preventDefault();
+            props.handleSubmit();
+            if (props.errors.description === "") {
+              props.createBug({
+                title: props.values.title,
+                description: props.values.description,
+                priority: props.priority.label,
+                date: props.startDate.toDateString(),
+                asignee: props.asignee,
+                issueType: props.issueType,
+              });
+              props.history.push("/loggedByMe");
+            }
+          }}
+          className="editBtn"
+          type="submit"
+        >
+          Edit
+          </button>
+      </div>
+    </form>
+  );
+}
 
 const InputFeedback = ({ error }) =>
   error !== "" ? <div className="input-feedback b f5 tl">{error}</div> : null;
@@ -45,130 +151,10 @@ const TextInput = ({
   );
 };
 
-function BugForm(props) {
-  console.log(props)
-  const priorities = [
-    { value: "0", label: "high" },
-    { value: "1", label: "medium" },
-    { value: "2", label: "low" }
-  ];
-
-  const asignee = [
-    { value: "0", label: "Ayat Turar" },
-    { value: "1", label: "Baraa Baraa" },
-    { value: "2", label: "Altamash Potato" }
-  ];
-  return (
-    <form className="bugForm flex flex-column tc pa4 ph7 pt4">
-      <div className="inputFields flex flex-column">
-        <div className="btns pa1 flex justify-center flex flex-column">
-          <div className="tc">
-            <button type="button" onClick={() => props.updateToFeature()} className={`bugsBtn ${props.issueType === "feature" && "active"}`}>
-              Feature
-            </button>
-            <button type="button" onClick={() => props.updateToBug()} className={`bugsBtn ${props.issueType === "bug" && "active"}`}>
-              Bug
-            </button>
-          </div>
-        </div>
-        <div className="pa3">
-          <TextInput
-            id="title"
-            type="text"
-            label="Title"
-            className="titleField"
-            placeholder="Please enter the title..."
-            error={props.touched.title && props.errors.title}
-            value={props.values.title}
-            onChange={props.handleChange}
-            onBlur={props.handleBlur}
-            className={props.errors.title ? "titleField error" : "titleField"}
-          />
-        </div>
-        <div className="priorityAndDueDate flex pv3">
-          <div className="priority">
-            <label className="label f5 tl black-60">
-              <span>Priority</span>
-            </label>
-            <Select
-              id="priority"
-              value={props.priority}
-              onChange={props.onPriorityChange}
-              options={priorities}
-              className="priority"
-              className={props.errors.title ? "priority error" : "priority"}
-            />
-          </div>
-          <div className="dueDate">
-            <label className="label f5 tl black-60">
-              <span>Due date</span>
-            </label>
-            <DatePicker
-              selected={props.startDate}
-              onChange={date => props.onStartDateChange(date)}
-              className="datePicker"
-            />
-          </div>
-        </div>
-        <div className="pa3 pv4">
-          <label className="label f5 tl black-60" {...props}>
-            Description
-          </label>
-          <textarea
-            id="description"
-            type="text"
-            label="description"
-            className="descriptionField"
-            placeholder="Please enter the description..."
-            value={props.values.description}
-            onChange={props.handleChange}
-            onBlur={props.handleBlur}
-          />
-          {/* <InputFeedback error={props.errors.description} /> */}
-        </div>
-        <div className="asigneeAndSubmitBtn flex flex-row">
-          <div className="asignee">
-            <label className="label f5 tl black-60">
-              <span>Asignee</span>
-            </label>
-            <Select
-              id="asignee"
-              value={props.asignees}
-              onChange={value => props.onAsigneChange(value)}
-              options={asignee}
-            />
-          </div>
-          <button
-            onClick={e => {
-              e.preventDefault();
-              props.handleSubmit();
-              if (props.errors.description === "") {
-                props.createBug({
-                  title: props.values.title,
-                  description: props.values.description,
-                  priority: props.priority.label,
-                  date: props.startDate.toDateString(),
-                  asignee: props.asignee,
-                  issueType: props.issueType,
-                });
-                props.history.push("/loggedByMe");
-              }
-            }}
-            className="submitBtn"
-            type="submit"
-          >
-            Submit
-          </button>
-        </div>
-      </div>
-    </form>
-  );
-}
-
 export default compose(
   withState("issueType", "setIssueType", ""),
   withState("startDate", "setStartDate", ""),
-  withState("priority", "setPriority", ""),
+  withState("priority", "setPriority", "High"),
   withState("asignee", "setAsignee", ""),
   withHandlers({
     updateToBug: props => () => {
@@ -187,4 +173,4 @@ export default compose(
       props.setAsignee(value);
     }
   })
-)(BugForm);
+)(ViewBugPage);
