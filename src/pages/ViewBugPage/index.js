@@ -9,8 +9,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 function ViewBugPage(props) {
   const { original } = props.location.state
-  const date = Moment(original.date).format('DD-MM-YYYY')
-  console.log("Date", date)
+  const date = Moment(original.date, 'x')
+  console.log("Date", date._d)
   return (
     <form className="bugForm flex flex-column tc pa4 ph7 pt4 disabled">
       <div className="inputFields flex flex-column">
@@ -50,7 +50,7 @@ function ViewBugPage(props) {
               <span>Due date</span>
             </label>
             <DatePicker
-              defaultInputValue={date}
+              selected={date._d}
               className="datePicker"
             />
           </div>
