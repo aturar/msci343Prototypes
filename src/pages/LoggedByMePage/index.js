@@ -30,11 +30,11 @@ function LoggedByMePage(props) {
         <div className="btns pa3 flex justify-center flex flex-column">
           <div className="tc">
             <button onClick={props.updateToFeature} className={`actionBtn ${props.active === "feature" && "act"}`}>
-              <div className="b f3">{props.numberOfFeatures} Features</div>
+              <div className="b f3">{props.loggedByMeFeatures} Features</div>
               <div className="black-60">Completed last week: 3</div>
             </button>
             <button onClick={props.updateToBug} className={`actionBtn ${props.active === "bug" && "act"}`}>
-              <div className="b f3">{props.numberOfBugs} Bugs</div>
+              <div className="b f3">{props.loggedByMeNumberOfBugs} Bugs</div>
               <div className="black-60 f5">Completed last week: 5</div>
             </button>
           </div>

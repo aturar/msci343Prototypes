@@ -50,7 +50,7 @@ export default compose(
       status: "In-progress",
       priority: "low",
       date: "Wed Nov 22 2018",
-      description: "Fix it suka",
+      description: "Fix it",
       asignee: "Baraa Baraa",
       issueType: "bug",
     },
@@ -62,10 +62,19 @@ export default compose(
       status: "In-progress",
       priority: "low",
       date: "Wed Nov 22 2018",
-      description: "Fix it suka",
+      description: "Fix it",
       asignee: "Baraa Baraa",
       issueType: "bug"
     },
+    {
+      title: "404 error when navigating to anywhere on the app",
+      status: "Backlog",
+      priority: "low",
+      date: "Wed Nov 27 2018",
+      description: "Please investigate and report",
+      asignee: "Baraa Baraa",
+      issueType: "bug"
+    }
   ]),
   withState("featuresArray", "setFeaturesArray", [
     {
@@ -73,13 +82,15 @@ export default compose(
       status: "In-progress",
       priority: "low",
       date: "Wed Nov 22 2018",
-      description: "Fix it suka",
+      description: "Fix it",
       asignee: "Baraa Baraa",
       issueType: "feature"
     },
   ]),
-  withState("numberOfFeatures", "setNumberOfFeatures", 0),
-  withState("numberOfBugs", "setNumberOfBugs", 4),
+  withState("numberOfFeatures", "setNumberOfFeatures", 1),
+  withState("numberOfBugs", "setNumberOfBugs", 2),
+  withState("loggedByMeFeatures", "setLoggedByMeFeatures", 0),
+  withState("loggedByMeNumberOfBugs", "setLoggedByMeNumberOfBugs", 0),
   withHandlers({
     createBug: props => bugObject => {
       if (bugObject.issueType === "bug") {
