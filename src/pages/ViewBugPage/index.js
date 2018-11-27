@@ -9,7 +9,9 @@ import "react-datepicker/dist/react-datepicker.css";
 
 function ViewBugPage(props) {
   const { original } = props.location.state
-  const date = Moment(original.date, 'x')
+  console.log("LOOK HERE", original)
+  const date = Moment(original.date)
+  console.log("LOOK AT THE DATE", date)
   return (
     <form className="bugForm flex flex-column tc pa4 ph7 pt4 disabled">
       <div className="inputFields flex flex-column">
